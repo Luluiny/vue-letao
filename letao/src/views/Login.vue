@@ -10,7 +10,7 @@
                     <el-input v-model="loginForm.password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                 <el-button type="primary" round class="loginbtn" @click="loginconfir('loginForm')">提交</el-button>
+                 <el-button type="primary" round class="loginbtn" @click="loginconfir('loginForm')">登录</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -39,11 +39,11 @@ export default {
   methods: {
     loginconfir (a) {
       this.$refs[a].validate(valid => {
-        console.log(1111111111)
+        // console.log(1111111111)
 
         if (valid) {
           login(this.loginForm).then(res => {
-            console.log(res)
+            // console.log(res)
             if (!res.message) {
               // 这个时候是登录成功
               this.$router.push({name: 'Home'})

@@ -44,7 +44,7 @@
             <el-container>
                 <el-header class="myicon-header">
                     <span class="myicon myicon-menu"></span>
-                    <el-button type="text" class="loginout">退出</el-button>
+                    <el-button type="text" class="loginout" @click="loginout">退出</el-button>
                 </el-header>
                 <el-main>
                     <router-view></router-view>
@@ -56,13 +56,42 @@
 </template>
 
 <script>
+import { confirmlogin, loginOut } from '@/api/index.js'
 export default {
   methods: {
     usersmenu () {
-      console.log(11111111111)
-
+      // 因为这里我不想多写一个分类 所以我使用router-link来实现路由跳转
       this.$router.push({ path: '/users' })
+    },
+    // 退出登录
+    loginout () {
+      this.$confirm('是否确认退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        loginOut().then(res => {
+          // console.log(res)
+          if (res.success) {
+            this.$router.push({path: '/login'})
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退出',
+          duration: 600
+        })
+      })
     }
+  },
+  mounted () {
+    confirmlogin().then(res => {
+      // console.log(res)
+      if (res.error === 400) {
+        this.$router.push({path: '/login'})
+      }
+    })
   }
 }
 </script>
